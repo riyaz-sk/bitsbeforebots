@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+const articles = [
+  { category: 'INFRASTRUCTURE', title: 'The quiet work of making a platform reliable', excerpt: 'Reliability is less about heroic recovery and more about the small choices that make failure boring.', date: 'May 14, 2026', readingTime: '7 min' },
+  { category: 'DEVOPS', title: 'A deployment pipeline should earn your trust', excerpt: 'The habits, guardrails, and feedback loops that turn release automation into a genuine engineering advantage.', date: 'Apr 29, 2026', readingTime: '6 min' },
+  { category: 'AI ENGINEERING', title: 'Use AI where the signal is strongest', excerpt: 'A practical framework for finding AI use cases that help teams move faster without adding fragile complexity.', date: 'Apr 06, 2026', readingTime: '8 min' }
+];
+---
+<BaseLayout title="Writing — Bits Before Bots">
+  <section class="page-intro"><p class="eyebrow">THE ARCHIVE</p><h1>Writing for people who build.</h1><p>Notes, postmortems, and practical ideas from the intersection of infrastructure and software.</p></section>
+  <section class="content-section archive"><div class="filter-row"><span>ALL POSTS</span><a href="#infrastructure">Infrastructure</a><a href="#devops">DevOps</a><a href="#ai">AI</a><a href="#software">Software</a></div><div class="archive-list">{articles.map(article => <ArticleCard {...article} />)}</div></section>
+</BaseLayout>

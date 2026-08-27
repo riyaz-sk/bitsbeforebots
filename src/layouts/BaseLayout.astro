@@ -1,0 +1,59 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Bits Before Bots',
+  description = 'Infrastructure, DevOps, AI, and practical software engineering.'
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="wordmark" href="/" aria-label="Bits Before Bots home">
+        <span class="mark">B</span><span>bitsbeforebots</span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="/writing">Writing</a>
+        <a href="/experience">Experience</a>
+        <a href="/about">About</a>
+      </nav>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" data-theme-toggle>
+        <span aria-hidden="true">◐</span>
+      </button>
+    </header>
+    <main><slot /></main>
+    <footer class="site-footer">
+      <a class="wordmark" href="/"><span class="mark">B</span><span>bitsbeforebots</span></a>
+      <p>Built for thoughtful systems.</p>
+      <div class="footer-links">
+        <a href="https://github.com/" target="_blank" rel="noreferrer">GitHub ↗</a>
+        <a href="https://www.linkedin.com/in/ririshai/" target="_blank" rel="noreferrer">LinkedIn ↗</a>
+        <a href="mailto:hello@bitsbeforebots.com">Email ↗</a>
+      </div>
+    </footer>
+    <script is:inline>
+      const storedTheme = localStorage.getItem('bbb-theme');
+      if (storedTheme) document.documentElement.dataset.theme = storedTheme;
+      document.querySelector('[data-theme-toggle]')?.addEventListener('click', () => {
+        const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+        document.documentElement.dataset.theme = next;
+        localStorage.setItem('bbb-theme', next);
+      });
+    </script>
+  </body>
+</html>

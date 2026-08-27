@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+
+const articles = [
+  { category: 'INFRASTRUCTURE', title: 'The quiet work of making a platform reliable', excerpt: 'Reliability is less about heroic recovery and more about the small choices that make failure boring.', date: 'May 14, 2026', readingTime: '7 min' },
+  { category: 'DEVOPS', title: 'A deployment pipeline should earn your trust', excerpt: 'The habits, guardrails, and feedback loops that turn release automation into a genuine engineering advantage.', date: 'Apr 29, 2026', readingTime: '6 min' },
+  { category: 'AI ENGINEERING', title: 'Use AI where the signal is strongest', excerpt: 'A practical framework for finding AI use cases that help teams move faster without adding fragile complexity.', date: 'Apr 06, 2026', readingTime: '8 min' }
+];
+---
+
+<BaseLayout>
+  <section class="hero">
+    <p class="eyebrow">FIELD NOTES FROM THE BUILD</p>
+    <h1>Make systems<br /><em>worth trusting.</em></h1>
+    <div class="hero-bottom">
+      <p>Practical notes on infrastructure, DevOps, AI, and the engineering decisions behind software that lasts.</p>
+      <a class="button button--dark" href="/writing">Explore the writing <span>→</span></a>
+    </div>
+    <div class="hero-grid" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+  </section>
+
+  <section class="content-section featured-section">
+    <div class="section-heading"><p class="eyebrow">START HERE</p><h2>Selected writing</h2><a href="/writing">View all writing →</a></div>
+    <div class="article-grid">
+      {articles.map((article, index) => <ArticleCard {...article} featured={index === 0} />)}
+    </div>
+  </section>
+
+  <section class="topics content-section">
+    <p class="eyebrow">WHAT I THINK ABOUT</p>
+    <div class="topic-list">
+      <a href="/writing#infrastructure"><span>01</span>Infrastructure <b>↗</b></a>
+      <a href="/writing#devops"><span>02</span>DevOps &amp; Platform <b>↗</b></a>
+      <a href="/writing#ai"><span>03</span>AI Engineering <b>↗</b></a>
+      <a href="/writing#software"><span>04</span>Software Craft <b>↗</b></a>
+    </div>
+  </section>
+
+  <section class="about-band">
+    <p class="eyebrow">THE PERSON BEHIND THE NOTES</p>
+    <div><h2>Curious about the systems beneath the product.</h2><p>I write about the work of making complex software simpler, safer, and easier to operate.</p><a class="button button--light" href="/about">More about me <span>→</span></a></div>
+  </section>
+</BaseLayout>

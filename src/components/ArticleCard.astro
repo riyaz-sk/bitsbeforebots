@@ -1,0 +1,19 @@
+---
+interface Props {
+  category: string;
+  title: string;
+  excerpt: string;
+  date: string;
+  readingTime: string;
+  href?: string;
+  featured?: boolean;
+}
+const { category, title, excerpt, date, readingTime, href = '#', featured = false } = Astro.props;
+---
+
+<article class:list={['article-card', { featured }]}>
+  <div class="article-card__meta"><span>{category}</span><span>{date} · {readingTime}</span></div>
+  <h3><a href={href}>{title}</a></h3>
+  <p>{excerpt}</p>
+  <a class="read-link" href={href}>Read article <span aria-hidden="true">→</span></a>
+</article>
