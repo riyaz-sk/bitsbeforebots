@@ -36,6 +36,7 @@ const {
         <span aria-hidden="true">◐</span>
       </button>
     </header>
+    <div class="reading-line" aria-hidden="true"><span data-reading-line></span></div>
     <main><slot /></main>
     <footer class="site-footer">
       <a class="wordmark" href="/"><span class="mark">B</span><span>bitsbeforebots</span></a>
@@ -54,6 +55,11 @@ const {
         document.documentElement.dataset.theme = next;
         localStorage.setItem('bbb-theme', next);
       });
+      const line = document.querySelector('[data-reading-line]');
+      addEventListener('scroll', () => {
+        const max = document.documentElement.scrollHeight - innerHeight;
+        if (line) line.style.transform = `scaleX(${max ? scrollY / max : 0})`;
+      }, { passive: true });
     </script>
   </body>
 </html>

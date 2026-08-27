@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ArticleCard from '../components/ArticleCard.astro';
+import SignalField from '../components/SignalField.astro';
 
 const articles = [
   { category: 'INFRASTRUCTURE', title: 'The quiet work of making a platform reliable', excerpt: 'Reliability is less about heroic recovery and more about the small choices that make failure boring.', date: 'May 14, 2026', readingTime: '7 min' },
@@ -11,13 +12,14 @@ const articles = [
 
 <BaseLayout>
   <section class="hero">
-    <p class="eyebrow">FIELD NOTES FROM THE BUILD</p>
-    <h1>Make systems<br /><em>worth trusting.</em></h1>
+    <div class="hero-copy"><p class="eyebrow"><span class="live-dot"></span> FIELD NOTES FROM THE BUILD</p>
+    <h1>Make systems<br /><em>worth trusting.</em></h1></div>
+    <SignalField />
     <div class="hero-bottom">
       <p>Practical notes on infrastructure, DevOps, AI, and the engineering decisions behind software that lasts.</p>
       <a class="button button--dark" href="/writing">Explore the writing <span>→</span></a>
     </div>
-    <div class="hero-grid" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="hero-coordinates" aria-hidden="true">39.7392° N&nbsp;&nbsp;104.9903° W<br />BUILD / LEARN / SHARE</div>
   </section>
 
   <section class="content-section featured-section">
@@ -38,7 +40,8 @@ const articles = [
   </section>
 
   <section class="about-band">
+    <div class="identity-stamp" aria-hidden="true"><span>RS</span><i>∞</i></div>
     <p class="eyebrow">THE PERSON BEHIND THE NOTES</p>
-    <div><h2>Curious about the systems beneath the product.</h2><p>I write about the work of making complex software simpler, safer, and easier to operate.</p><a class="button button--light" href="/about">More about me <span>→</span></a></div>
+    <div><h2>Curious about the systems beneath the product.</h2><p>Riyaz Shaik · Principal DevOps Engineer at Oracle. I write about the work of making complex software simpler, safer, and easier to operate.</p><a class="button button--light" href="/about">More about me <span>→</span></a></div>
   </section>
 </BaseLayout>

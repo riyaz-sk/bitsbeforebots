@@ -12,6 +12,7 @@ const { category, title, excerpt, date, readingTime, href = '#', featured = fals
 ---
 
 <article class:list={['article-card', { featured }]}>
+  <div class="article-card__glyph" aria-hidden="true"><span></span><span></span><span></span></div>
   <div class="article-card__meta"><span>{category}</span><span>{date} · {readingTime}</span></div>
   <h3><a href={href}>{title}</a></h3>
   <p>{excerpt}</p>
