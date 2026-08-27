@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ArticleCard from '../components/ArticleCard.astro';
-import SignalField from '../components/SignalField.astro';
+import WorkspaceCanvas from '../components/WorkspaceCanvas.astro';
 
 const articles = [
   { category: 'INFRASTRUCTURE', title: 'The quiet work of making a platform reliable', excerpt: 'Reliability is less about heroic recovery and more about the small choices that make failure boring.', date: 'May 14, 2026', readingTime: '7 min' },
@@ -13,13 +13,13 @@ const articles = [
 <BaseLayout>
   <section class="hero">
     <div class="hero-copy"><p class="eyebrow"><span class="live-dot"></span> RIYAZ SHAIK · PRINCIPAL DEVOPS ENGINEER, ORACLE</p>
-    <h1>Practical notes for<br /><em>people who build.</em></h1></div>
-    <SignalField />
+    <h1>Ideas for systems<br />that <em>last.</em></h1></div>
+    <WorkspaceCanvas />
     <div class="hero-bottom">
-      <p>Bits Before Bots is where I share field notes on reliable infrastructure, platform engineering, and AI that earns its place.</p>
+      <p>A personal engineering workspace for reliable infrastructure, thoughtful DevOps, and AI that earns its place.</p>
       <div class="hero-actions"><a class="button button--dark" href="#start-here">Start here <span>↓</span></a><a class="text-link" href="/experience">My experience →</a></div>
     </div>
-    <div class="hero-coordinates" aria-hidden="true">39.7392° N&nbsp;&nbsp;104.9903° W<br />BUILD / LEARN / SHARE</div>
+    <div class="hero-coordinates" aria-hidden="true">FIELD NOTES / DENVER<br />BUILD / LEARN / SHARE</div>
   </section>
 
   <section class="content-section wayfinding" id="start-here">
