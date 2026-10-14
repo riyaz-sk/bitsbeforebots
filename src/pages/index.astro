@@ -1,16 +1,39 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-const articles = [
-  { art: 'bars', title: 'Observability that matters: signals, not noise', description: 'Focus on the few measurements that tell the truth. Build dashboards that illuminate, not decorate.', date: 'Apr 28, 2026', time: '6 min read' },
-  { art: 'wedge', title: 'Git workflows for calm deployments', description: 'Trunk-based thinking, small batches, and safe rollouts. A workflow that keeps teams shipping without fear.', date: 'Apr 14, 2026', time: '5 min read' },
-  { art: 'rings', title: 'Prompting as engineering, not magic', description: 'Structure, context, and evaluation. A practical approach to building reliable AI-powered features.', date: 'Mar 31, 2026', time: '7 min read' }
+
+const collections = [
+  ['Long-form', 'Blogs', 'In-depth essays on infrastructure, reliability, and engineering judgment.', 'Writing →'],
+  ['Takeaways', 'Notes', 'Concise technical lessons, useful patterns, and ideas worth keeping.', 'Notes →'],
+  ['Open source', 'Projects', 'Developer tools, experiments, and practical systems work.', 'Projects →'],
+  ['Deep dives', 'Research', 'Papers, architecture studies, and systems worth understanding.', 'Research →']
+];
+
+const posts = [
+  ['Oct 14, 2026', 'Reliability is a product decision'],
+  ['Oct 03, 2026', 'A practical model for reducing deployment risk'],
+  ['Sep 25, 2026', 'Where AI improves an engineering workflow—and where it does not'],
+  ['Sep 12, 2026', 'The quiet work of making a platform dependable']
+];
+
+const notes = [
+  ['Oct 09, 2026', 'Observability should shorten the path from surprise to understanding.'],
+  ['Oct 01, 2026', 'Automation is valuable when it preserves judgment, not when it hides it.'],
+  ['Sep 18, 2026', 'Small, reversible changes are an operating advantage.'],
+  ['Sep 08, 2026', 'AI systems need the same operational care as every other production system.']
 ];
 ---
-<BaseLayout title="Bits Before Bots — Field Notes">
-  <main class="journal-home">
-    <section class="journal-hero"><div class="hero-splash" aria-hidden="true"><i class="hero-splash__sun"></i><i class="hero-splash__grid"></i></div><h1>Field notes for<br /><span>reliable systems.</span></h1><nav class="topic-nav" aria-label="Writing topics"><a href="/writing#infrastructure">Infrastructure</a><a href="/writing#devops">DevOps</a><a href="/writing#ai">AI Engineering</a><a href="/writing#software">Software Craft</a></nav></section>
-    <section class="journal-feature"><div class="feature-art" aria-hidden="true"><div class="feature-sun"></div><div class="feature-hill"></div><div class="feature-paper"></div><div class="feature-dots"></div><div class="feature-lines"></div></div><article class="feature-copy"><p class="feature-label note-script">Featured</p><h2>Designing for failure:<br />practical resilience patterns<br />that actually work</h2><p>Failure is inevitable. Resilience is a design choice. A field guide to patterns that help systems absorb shock, degrade gracefully, and recover cleanly.</p><div class="byline"><strong>Riyaz Shaik</strong><span>•</span><span>May 12, 2026</span><span>•</span><span>8 min read</span></div></article></section>
-    <section class="journal-list" aria-label="Latest articles">{articles.map(article => <article class="journal-row"><div class:list={['row-art', `row-art--${article.art}`]} aria-hidden="true"><i></i><b></b></div><div class="row-copy"><h2>{article.title}</h2><p>{article.description}</p></div><div class="row-meta"><strong>Riyaz Shaik</strong><span>{article.date} · {article.time}</span></div><a class="row-arrow" href="/writing" aria-label={`Read ${article.title}`}>→</a></article>)}</section>
-    <footer class="journal-quote"><span class="quote-mark">“</span><p>Tools change. Systems last. Build with clarity, measure honestly, and leave things better than you found them.<br /><i>— Riyaz Shaik</i></p><span class="quote-menu" aria-hidden="true"><b></b><b></b><b></b></span></footer>
+
+<BaseLayout title="Riyaz Shaik — Bits Before Bots">
+  <main class="hub-home">
+    <section class="hub-intro">
+      <div><p class="hub-kicker">HEY, I’M RIYAZ</p><h1>Engineering systems<br />that are <em>worth trusting.</em></h1></div>
+      <div class="hub-intro__body"><p>I’m Riyaz Shaik, a Principal DevOps Engineer at Oracle. I work on the systems, practices, and feedback loops that help software teams ship confidently and operate reliably.</p><p>Bits Before Bots is where I share what I’m learning about infrastructure, DevOps, AI, and software engineering.</p><div class="hub-links"><a href="/experience">Experience →</a><a href="https://www.linkedin.com/in/ririshai/" target="_blank" rel="noreferrer">LinkedIn ↗</a><a href="/about">More about me →</a></div></div>
+    </section>
+
+    <section class="hub-section hub-explore"><div class="hub-section__heading"><p class="hub-kicker">EXPLORE WORK &amp; WRITINGS</p><p>Everything I build, write, and learn in the open.</p></div><div class="collection-grid">{collections.map(([eyebrow, title, description, link], index) => <a class:list={['collection-card', `collection-card--${index + 1}`]} href={index === 0 ? '/writing' : '/about'}><span>{eyebrow}</span><h2>{title}</h2><p>{description}</p><b>{link}</b></a>)}</div></section>
+
+    <section class="hub-section hub-columns"><div><div class="hub-section__heading hub-section__heading--inline"><div><p class="hub-kicker">RECENT BLOG POSTS</p><p>Long-form essays on reliable engineering.</p></div><a href="/writing">Full archive →</a></div><ol class="hub-list">{posts.map(([date, title]) => <li><time>{date}</time><a href="/writing">{title}</a></li>)}</ol></div><div><div class="hub-section__heading hub-section__heading--inline"><div><p class="hub-kicker">RECENT NOTES</p><p>Concise engineering takeaways.</p></div><a href="/writing">All notes →</a></div><ol class="hub-list">{notes.map(([date, title]) => <li><time>{date}</time><a href="/writing">{title}</a></li>)}</ol></div></section>
+
+    <section class="hub-section hub-projects"><div class="hub-section__heading"><p class="hub-kicker">PROJECTS &amp; PRACTICE</p><p>Things I build to explore better ways of working.</p></div><div class="project-list"><a href="https://github.com/" target="_blank" rel="noreferrer"><strong>Bits Before Bots</strong><span>Field notes and practical engineering writing.</span><b>GitHub ↗</b></a><a href="/experience"><strong>Platform experiments</strong><span>Small automation and infrastructure explorations.</span><b>Explore →</b></a><a href="/writing"><strong>Engineering notes</strong><span>Patterns, trade-offs, and production lessons.</span><b>Read →</b></a></div></section>
   </main>
 </BaseLayout>
