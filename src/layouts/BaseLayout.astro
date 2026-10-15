@@ -1,5 +1,7 @@
 ---
 import '../styles/global.css';
+import { Image } from 'astro:assets';
+import brandLogo from '../assets/brand/b3-angular-street.png';
 import SocialLinks from '../components/SocialLinks.astro';
 interface Props { title?: string; description?: string; pageClass?: string; }
 const { pageClass = '', title = 'Riyaz Shaik — Bits Before Bots', description = 'Riyaz Shaik, Sr. Principal DevOps Engineer. Infrastructure, reliable systems, practical AI, and engineering field notes.' } = Astro.props;
@@ -18,7 +20,9 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   <head>
     <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} /><meta name="color-scheme" content="light dark" />
-    <link rel="canonical" href={canonical} /><link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonical} /><link rel="icon" type="image/svg+xml" href="/favicon.svg?v=b3" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=b3" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=b3" />
     <meta property="og:title" content={title} /><meta property="og:description" content={description} /><meta property="og:type" content="website" /><meta property="og:url" content={canonical} />
     <title>{title}</title>
     <script is:inline>
@@ -29,7 +33,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="app-header">
       <button class="menu-toggle" type="button" aria-label="Open navigation" aria-controls="site-navigation" aria-expanded="false" data-menu-toggle hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
-      <a class="wordmark" href="/" aria-label="Bits Before Bots home"><span class="brand-mark" aria-hidden="true">b<span>b</span><i></i></span><span>bitsbeforebots<span class="brand-caption">RIYAZ SHAIK / ENGINEER &amp; WRITER</span></span></a>
+      <a class="wordmark" href="/" aria-label="Bits Before Bots home"><Image class="brand-logo" src={brandLogo} alt="" width={64} widths={[48, 64, 96, 128]} sizes="(max-width: 600px) 44px, 64px" format="webp" quality={90} loading="eager" /><span>Bits.Before.Bots<span class="brand-caption">RIYAZ SHAIK | SW ENGINEER &amp; WRITER</span></span></a>
       <form class="site-search" action="/writing" role="search">
         <label class="sr-only" for="article-search">Search articles</label>
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg>
