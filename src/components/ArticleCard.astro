@@ -1,20 +1,11 @@
 ---
-interface Props {
-  category: string;
-  title: string;
-  excerpt: string;
-  date: string;
-  readingTime: string;
-  href?: string;
-  featured?: boolean;
-}
-const { category, title, excerpt, date, readingTime, href = '#', featured = false } = Astro.props;
+import type { CollectionEntry } from 'astro:content';
+interface Props { article: CollectionEntry<'writing'>; index?: number; }
+const { article, index = 1 } = Astro.props;
 ---
-
-<article class:list={['article-card', { featured }]}>
-  <div class="article-card__glyph" aria-hidden="true"><span></span><span></span><span></span></div>
-  <div class="article-card__meta"><span>{category}</span><span>{date} · {readingTime}</span></div>
-  <h3><a href={href}>{title}</a></h3>
-  <p>{excerpt}</p>
-  <a class="read-link" href={href}>Read article <span aria-hidden="true">→</span></a>
+<article class="article-card" data-category={article.data.category}>
+  <div class="article-top"><span class="eyebrow">{article.data.category}</span><span class="article-number">0{index}</span></div>
+  <h3><a href={`/writing/${article.id}/`}>{article.data.title}</a></h3>
+  <p>{article.data.description}</p>
+  <div class="article-bottom"><span>{article.data.sample ? 'Sample essay' : article.data.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' })} · {article.data.readingTime}</span><a href={`/writing/${article.id}/`} aria-label={`Read ${article.data.title}`}>Read <span aria-hidden="true">↗</span></a></div>
 </article>

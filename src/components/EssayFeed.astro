@@ -1,0 +1,16 @@
+---
+import type { CollectionEntry } from 'astro:content';
+interface Props { articles: CollectionEntry<'writing'>[]; }
+const { articles } = Astro.props;
+---
+<div class="essay-list">
+  {articles.map(article => <article class="essay-row" data-category={article.data.category} data-search={`${article.data.title} ${article.data.description} ${article.data.category}`.toLowerCase()}>
+    <div class="essay-content">
+      <div class="essay-byline"><span class="byline-avatar" aria-hidden="true">RS</span><span>Riyaz Shaik</span><span class="byline-separator">·</span>{article.data.sample ? <span>Sample essay</span> : <time datetime={article.data.date.toISOString()}>{article.data.date.toLocaleDateString('en-US', {month:'short',day:'numeric',year:'numeric',timeZone:'UTC'})}</time>}</div>
+      <h2><a href={`/writing/${article.id}/`}>{article.data.title}</a></h2>
+      <p>{article.data.description}</p>
+      <div class="feed-meta"><span>{article.data.category}</span><span>{article.data.readingTime} read</span></div>
+    </div>
+    <div class:list={['essay-symbol', `symbol-${article.data.category === 'Infrastructure' ? 'infra' : article.data.category === 'DevOps' ? 'devops' : 'ai'}`]} aria-hidden="true"><svg viewBox="0 0 80 80" fill="none">{article.data.category === 'Infrastructure' ? <><rect x="19" y="15" width="42" height="20" rx="4"/><rect x="19" y="45" width="42" height="20" rx="4"/><path d="M26 25h3m5 0h18M26 55h3m5 0h18M40 35v10"/></> : article.data.category === 'DevOps' ? <><rect x="6" y="29" width="22" height="22" rx="4"/><rect x="52" y="29" width="22" height="22" rx="4"/><path d="M28 40h24m-7-7 7 7-7 7M13 40l4 4 6-8M59 40l4 4 6-8"/></> : <><path d="m40 12 8 20 20 8-20 8-8 20-8-20-20-8 20-8Z"/><circle cx="40" cy="40" r="7"/></>}</svg></div>
+  </article>)}
+</div>

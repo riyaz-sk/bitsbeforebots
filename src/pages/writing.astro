@@ -1,13 +1,63 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import ArticleCard from '../components/ArticleCard.astro';
-const articles = [
-  { category: 'INFRASTRUCTURE', title: 'The quiet work of making a platform reliable', excerpt: 'Reliability is less about heroic recovery and more about the small choices that make failure boring.', date: 'May 14, 2026', readingTime: '7 min' },
-  { category: 'DEVOPS', title: 'A deployment pipeline should earn your trust', excerpt: 'The habits, guardrails, and feedback loops that turn release automation into a genuine engineering advantage.', date: 'Apr 29, 2026', readingTime: '6 min' },
-  { category: 'AI ENGINEERING', title: 'Use AI where the signal is strongest', excerpt: 'A practical framework for finding AI use cases that help teams move faster without adding fragile complexity.', date: 'Apr 06, 2026', readingTime: '8 min' }
-];
+import AuthorSidebar from '../components/AuthorSidebar.astro';
+import EssayFeed from '../components/EssayFeed.astro';
+import { getCollection } from 'astro:content';
+const articles = (await getCollection('writing', ({data}) => !data.draft)).sort((a,b) => b.data.date.valueOf()-a.data.date.valueOf());
+const topics = ['All writing', 'Infrastructure', 'DevOps', 'AI engineering'];
 ---
-<BaseLayout title="Writing — Bits Before Bots">
-  <section class="page-intro"><p class="eyebrow">THE ARCHIVE</p><h1>Writing for people who build.</h1><p>Notes, postmortems, and practical ideas from the intersection of infrastructure and software.</p></section>
-  <section class="content-section archive"><div class="filter-row"><span>ALL POSTS</span><a href="#infrastructure">Infrastructure</a><a href="#devops">DevOps</a><a href="#ai">AI</a><a href="#software">Software</a></div><div class="archive-list">{articles.map(article => <ArticleCard {...article} />)}</div></section>
+<BaseLayout title="Writing — Riyaz Shaik" pageClass="feed-page">
+  <header class="feed-intro"><p class="eyebrow">THE FIELD NOTES</p><h1>Thinking in public.</h1><p>Infrastructure, engineering trade-offs, and practical AI. Find something worth thinking about.</p></header>
+  <div class="feed-topics filters" aria-label="Filter writing by topic" hidden>{topics.map((topic,index) => <button type="button" data-filter={topic} aria-pressed={index === 0}>{topic}</button>)}</div>
+  {articles.some(article => article.data.sample) && <p class="sample-note">The essays below are sample content for this portfolio preview.</p>}
+  <p class="search-summary" data-search-summary hidden></p>
+  <p class="sr-only" aria-live="polite" data-results></p>
+  <EssayFeed articles={articles} />
+  <div class="empty-state search-empty" data-empty hidden><h2>No matching field notes.</h2><p>Try another search or explore all topics.</p><a class="text-link" href="/writing">Reset search and filters</a></div>
+  <AuthorSidebar slot="sidebar" />
+  <script>
+    const filters = document.querySelector<HTMLElement>('.filters');
+    if (filters) filters.hidden = false;
+    const cards = [...document.querySelectorAll<HTMLElement>('[data-search]')];
+    const buttons = [...document.querySelectorAll<HTMLButtonElement>('[data-filter]')];
+    const input = document.querySelector<HTMLInputElement>('#article-search');
+    const form = document.querySelector<HTMLFormElement>('.site-search');
+    const applyFilters = (syncInput = true) => {
+      const params = new URL(location.href).searchParams;
+      const requested = params.get('topic');
+      const topic = buttons.some(button => button.dataset.filter === requested) ? requested! : 'All writing';
+      const query = (params.get('q') || '').trim();
+      if (syncInput && input && input.value !== query) input.value = query;
+      buttons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.filter === topic)));
+      const terms = query.toLowerCase().split(/\s+/).filter(Boolean);
+      let count = 0;
+      cards.forEach(card => {
+        card.hidden = (topic !== 'All writing' && card.dataset.category !== topic) || !terms.every(term => card.dataset.search!.includes(term));
+        if (!card.hidden) count++;
+      });
+      const empty = document.querySelector<HTMLElement>('[data-empty]');
+      if (empty) empty.hidden = count > 0;
+      const summary = document.querySelector<HTMLElement>('[data-search-summary]');
+      if (summary) { summary.hidden = !query; summary.textContent = `${count} ${count === 1 ? 'essay' : 'essays'} for “${query}”`; }
+      const results = document.querySelector('[data-results]');
+      if (results) results.textContent = `${count} ${count === 1 ? 'essay' : 'essays'} shown${topic === 'All writing' ? '' : ` in ${topic}`}`;
+    };
+    const setQuery = (push: boolean) => {
+      const url = new URL(location.href);
+      const query = input?.value.trim() || '';
+      if (query) url.searchParams.set('q', query); else url.searchParams.delete('q');
+      if (push) history.pushState(null, '', url); else history.replaceState(null, '', url);
+      applyFilters(false);
+    };
+    applyFilters();
+    window.addEventListener('popstate', () => applyFilters());
+    input?.addEventListener('input', () => setQuery(false));
+    form?.addEventListener('submit', event => { event.preventDefault(); setQuery(true); document.querySelector('.feed-intro')?.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'}); });
+    buttons.forEach(button => button.addEventListener('click', () => {
+      const url = new URL(location.href);
+      if (button.dataset.filter === 'All writing') url.searchParams.delete('topic'); else url.searchParams.set('topic', button.dataset.filter!);
+      history.pushState(null, '', url);
+      applyFilters();
+    }));
+  </script>
 </BaseLayout>

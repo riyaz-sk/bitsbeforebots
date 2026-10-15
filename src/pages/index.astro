@@ -1,43 +1,18 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-
-const work = [
-  ['Long-form', 'Blogs', 'In-depth essays on infrastructure, DevOps, AI, and the trade-offs behind production systems.', '/writing'],
-  ['Takeaways', 'Notes', 'Concise engineering lessons, useful patterns, and mental models for building better systems.', '/writing'],
-  ['Open source', 'Projects', 'Developer tools, automation experiments, and practical systems work.', '/experience'],
-  ['Research', 'Reading list', 'Papers, architecture studies, and technical ideas worth understanding.', '/writing'],
-  ['Community', 'Speaking', 'Knowledge shared with engineers, teams, and the broader technology community.', '/about'],
-  ['Career', 'Experience', 'The work, systems, and outcomes behind my professional journey.', '/experience']
-];
-
-const blogPosts = [
-  ['Oct 14, 2026', 'Reliability is a product decision'],
-  ['Oct 03, 2026', 'A practical model for reducing deployment risk'],
-  ['Sep 25, 2026', 'Where AI improves an engineering workflow—and where it does not'],
-  ['Sep 12, 2026', 'The quiet work of making a platform dependable'],
-  ['Aug 28, 2026', 'A deployment pipeline should earn your trust']
-];
-
-const notes = [
-  ['Oct 09, 2026', 'Observability should shorten the path from surprise to understanding.'],
-  ['Oct 01, 2026', 'Automation is valuable when it preserves judgment, not when it hides it.'],
-  ['Sep 18, 2026', 'Small, reversible changes are an operating advantage.'],
-  ['Sep 08, 2026', 'AI systems need the same operational care as every other production system.'],
-  ['Aug 30, 2026', 'A calm platform is built from many deliberately boring decisions.']
-];
+import AuthorSidebar from '../components/AuthorSidebar.astro';
+import EssayFeed from '../components/EssayFeed.astro';
+import { getCollection } from 'astro:content';
+const articles = (await getCollection('writing', ({data}) => !data.draft)).sort((a,b) => b.data.date.valueOf()-a.data.date.valueOf()).slice(0,6);
+const topics = ['Infrastructure', 'DevOps', 'AI engineering'];
 ---
-
-<BaseLayout title="Riyaz Shaik — Bits Before Bots">
-  <main class="engineer-home">
-    <section class="engineer-intro">
-      <div class="engineer-avatar" aria-hidden="true">RS</div>
-      <div><h1>Hey, I’m Riyaz.</h1><p class="engineer-tagline">infrastructure, DevOps, AI, and systems. always building.</p><div class="engineer-bio"><p>I’m <strong>Riyaz Shaik</strong>, a Principal DevOps Engineer at Oracle. I care about the foundations that make software reliable: clear delivery paths, observable platforms, good operational judgment, and teams that can move with confidence.</p><p>Bits Before Bots is where I write in public about infrastructure, DevOps, practical AI, and the engineering decisions that make systems easier to build and operate.</p><p>I’m interested in the work beneath the product: resilient architecture, thoughtful automation, developer experience, and the trade-offs that only become visible in production.</p></div><div class="engineer-contact"><a href="/about">About Riyaz →</a><a href="https://www.linkedin.com/in/ririshai/" target="_blank" rel="noreferrer">LinkedIn ↗</a><a href="/experience">Experience →</a></div></div>
-    </section>
-
-    <section class="engineer-section"><h2>Explore Work &amp; Writings</h2><p class="engineer-section__intro">Everything I build, write, and learn in the open.</p><div class="explore-list">{work.map(([eyebrow, title, description, href]) => <a href={href}><span>{eyebrow}</span><div><strong>{title}</strong><p>{description}</p></div><b>View →</b></a>)}</div></section>
-
-    <section class="engineer-feeds"><div><div class="feed-heading"><div><h2>Recent blog posts</h2><p>Long-form essays I have written recently.</p></div><a href="/writing">Full archive →</a></div><ul>{blogPosts.map(([date, title]) => <li><time>{date}</time><a href="/writing">{title}</a></li>)}</ul></div><div><div class="feed-heading"><div><h2>Recent notes</h2><p>Concise engineering takeaways and mental models.</p></div><a href="/writing">All notes →</a></div><ul>{notes.map(([date, title]) => <li><time>{date}</time><a href="/writing">{title}</a></li>)}</ul></div></section>
-
-    <section class="engineer-section engineer-footer-links"><h3>Writings &amp; Media</h3><div><a href="/writing">Blogs <span>Essays</span></a><a href="/writing">Notes <span>Takeaways</span></a><a href="/experience">Projects <span>Open source</span></a><a href="/about">About &amp; Contact <span>Connect</span></a></div></section>
-  </main>
+<BaseLayout pageClass="feed-page">
+  <header class="feed-intro"><h1>An engineer’s notebook.</h1><p>Ideas, trade-offs, and lessons from building systems that people depend on.</p></header>
+  <nav class="feed-topics" aria-label="Browse writing"><a href="/" aria-current="page">Recent writing</a>{topics.map(topic => <a href={`/writing?topic=${encodeURIComponent(topic)}`}>{topic}</a>)}</nav>
+  <div class="mobile-topic-links"><span>Explore topics</span>{topics.map(topic => <a href={`/writing?topic=${encodeURIComponent(topic)}`}>{topic}</a>)}</div>
+  {articles.some(article => article.data.sample) && <p class="sample-note">Sample essays, while I get this notebook ready.</p>}
+  <EssayFeed articles={articles} />
+  {articles.length === 0 && <p class="empty-state">The first field notes are on the way.</p>}
+  <a class="text-link feed-archive-link" href="/writing">Browse all writing</a>
+  <AuthorSidebar slot="sidebar" />
 </BaseLayout>

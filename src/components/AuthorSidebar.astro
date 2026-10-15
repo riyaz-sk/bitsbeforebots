@@ -1,0 +1,15 @@
+---
+import { Mascot } from 'page-mascot';
+import SocialLinks from './SocialLinks.astro';
+const topics = ['Infrastructure', 'DevOps', 'AI engineering'];
+---
+<div class="author-sidebar">
+  <div class="sidebar-mascot"><Mascot client:load directions="/mascots/cat-directions.webp" reactions="/mascots/cat-reactions.webp" size={230} label="cat" /></div>
+  <p class="sidebar-kicker">THE PERSON BEHIND THE NOTES</p>
+  <h2>Hi, I’m Riyaz.</h2>
+  <p>Sr. Principal DevOps Engineer at Oracle America Inc. Curious about dependable systems, useful automation, and practical AI.</p>
+  <a class="text-link" href="/about">A little about me</a>
+  <SocialLinks />
+  <section class="sidebar-topics"><h2>Explore the topics</h2><div class="topic-links">{topics.map(topic => <a href={`/writing?topic=${encodeURIComponent(topic)}`}>{topic}</a>)}</div></section>
+  <section class="sidebar-principle"><p class="eyebrow">A NOTE TO BUILD BY</p><p>Good systems start with understanding the fundamentals.</p><a class="text-link" href="/work">Explore my work</a></section>
+</div>
