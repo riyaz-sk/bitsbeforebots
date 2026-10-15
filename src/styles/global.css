@@ -69,7 +69,6 @@
 .feed-topics a[aria-current],.feed-topics button[aria-pressed='true']{background:transparent;color:var(--ink);font-weight:600}
 .feed-topics a[aria-current]:after,.feed-topics button[aria-pressed='true']:after{content:'';position:absolute;height:2px;bottom:-1px;left:0;right:0;background:var(--accent)}
 .feed-topics button{border-color:transparent!important}
-.sample-note{color:var(--muted);font-size:11px;margin:16px 0 0}
 .essay-row{display:flex;align-items:center;gap:30px;border-bottom:1px solid var(--line);padding:30px 0 32px}
 .essay-content{min-width:0;flex:1}
 .essay-byline{display:flex;flex-wrap:wrap;align-items:center;gap:7px;font-size:11px;color:var(--muted);margin-bottom:14px}
@@ -109,3 +108,6 @@
 .app-header .brand-logo{display:block;width:64px;height:64px;object-fit:contain;flex-shrink:0}
 @media(max-width:900px){.app-header .brand-logo{width:52px;height:52px}}
 @media(max-width:600px){.app-header .brand-logo{width:44px;height:44px}}
+
+.profile-card .tags{justify-content:center;margin:18px 0 25px}
+@media(max-width:760px){.profile-card .tags{justify-content:flex-start}}

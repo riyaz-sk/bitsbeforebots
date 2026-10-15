@@ -6,7 +6,7 @@ const { articles } = Astro.props;
 <div class="essay-list">
   {articles.map(article => <article class="essay-row" data-category={article.data.category} data-search={`${article.data.title} ${article.data.description} ${article.data.category}`.toLowerCase()}>
     <div class="essay-content">
-      <div class="essay-byline"><span class="byline-avatar" aria-hidden="true">RS</span><span>Riyaz Shaik</span><span class="byline-separator">·</span>{article.data.sample ? <span>Sample essay</span> : <time datetime={article.data.date.toISOString()}>{article.data.date.toLocaleDateString('en-US', {month:'short',day:'numeric',year:'numeric',timeZone:'UTC'})}</time>}</div>
+      <div class="essay-byline"><span class="byline-avatar" aria-hidden="true">RS</span><span>Riyaz Shaik</span><span class="byline-separator">·</span><time datetime={article.data.date.toISOString()}>{article.data.date.toLocaleDateString('en-US', {month:'short',day:'numeric',year:'numeric',timeZone:'UTC'})}</time></div>
       <h2><a href={`/writing/${article.id}/`}>{article.data.title}</a></h2>
       <p>{article.data.description}</p>
       <div class="feed-meta"><span>{article.data.category}</span><span>{article.data.readingTime} read</span></div>

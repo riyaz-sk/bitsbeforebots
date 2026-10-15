@@ -15,9 +15,9 @@ Deploy the `dist/` directory to a static host. No server runtime is required. Th
 
 ## Content
 
-Essays live in `src/content/writing/`; see its README for frontmatter and draft controls. The initial essays are explicitly labeled samples. Review or replace them before launch.
+Essays live in `src/content/writing/`; see its README for frontmatter and draft controls. Published articles use the author’s supplied content.
 
-Work and case-study focus areas live in `src/pages/work.astro`. Add real project context and verified outcomes before presenting them as published case studies. Experience currently shows only the supplied Oracle America Inc. role.
+Work focus areas and related article links live in `src/pages/work.astro`. Experience shows the supplied Oracle America Inc. role.
 
 The shared layout and design system live in `src/layouts/BaseLayout.astro` and `src/styles/global.css`. The old journal override stylesheet and concept SVGs are retained but are not loaded. Contact links use the supplied LinkedIn profile; add other links once verified.
 

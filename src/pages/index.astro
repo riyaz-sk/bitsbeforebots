@@ -10,9 +10,8 @@ const topics = ['Infrastructure', 'DevOps', 'AI engineering'];
   <header class="feed-intro"><h1>An engineer’s notebook.</h1><p>Ideas, trade-offs, and lessons from building systems that people depend on.</p></header>
   <nav class="feed-topics" aria-label="Browse writing"><a href="/" aria-current="page">Recent writing</a>{topics.map(topic => <a href={`/writing?topic=${encodeURIComponent(topic)}`}>{topic}</a>)}</nav>
   <div class="mobile-topic-links"><span>Explore topics</span>{topics.map(topic => <a href={`/writing?topic=${encodeURIComponent(topic)}`}>{topic}</a>)}</div>
-  {articles.some(article => article.data.sample) && <p class="sample-note">Sample essays, while I get this notebook ready.</p>}
   <EssayFeed articles={articles} />
-  {articles.length === 0 && <p class="empty-state">The first field notes are on the way.</p>}
+  {articles.length === 0 && <p class="empty-state">No articles published.</p>}
   <a class="text-link feed-archive-link" href="/writing">Browse all writing</a>
   <AuthorSidebar slot="sidebar" />
 </BaseLayout>

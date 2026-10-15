@@ -9,7 +9,6 @@ const topics = ['All writing', 'Infrastructure', 'DevOps', 'AI engineering'];
 <BaseLayout title="Writing — Riyaz Shaik" pageClass="feed-page">
   <header class="feed-intro"><p class="eyebrow">THE FIELD NOTES</p><h1>Thinking in public.</h1><p>Infrastructure, engineering trade-offs, and practical AI. Find something worth thinking about.</p></header>
   <div class="feed-topics filters" aria-label="Filter writing by topic" hidden>{topics.map((topic,index) => <button type="button" data-filter={topic} aria-pressed={index === 0}>{topic}</button>)}</div>
-  {articles.some(article => article.data.sample) && <p class="sample-note">The essays below are sample content for this portfolio preview.</p>}
   <p class="search-summary" data-search-summary hidden></p>
   <p class="sr-only" aria-live="polite" data-results></p>
   <EssayFeed articles={articles} />
