@@ -2,6 +2,7 @@
 title: "Making AI Useful Across the Engineering Lifecycle"
 description: "Making AI a dependable engineering practice through shared context, repeatable workflows, realistic validation, and human ownership."
 category: "AI engineering"
+tags: ["AI Workflows", "Developer Experience", "Evaluation"]
 date: 2026-10-15
 readingTime: "4 min"
 ---

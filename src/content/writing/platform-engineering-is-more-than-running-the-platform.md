@@ -2,6 +2,7 @@
 title: "Platform Engineering Is More Than Running the Platform"
 description: "Platform engineering lessons on user workflows, predictable delivery, tested access controls, and operability as part of the product."
 category: "Infrastructure"
+tags: ["Platform Engineering", "Developer Experience", "Observability", "Reliability"]
 date: 2026-10-15
 readingTime: "3 min"
 ---

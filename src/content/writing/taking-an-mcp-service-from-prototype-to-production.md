@@ -2,6 +2,7 @@
 title: "Taking an MCP Service from Prototype to Production"
 description: "Lessons from building an MCP service: tested access controls, trustworthy evidence, deployment behavior, and operational ownership."
 category: "AI engineering"
+tags: ["MCP", "Authentication", "Observability", "Reliability"]
 date: 2026-10-15
 readingTime: "4 min"
 ---

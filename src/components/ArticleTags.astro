@@ -1,0 +1,18 @@
+---
+interface Props { tags: string[]; }
+const { tags } = Astro.props;
+---
+{tags.length > 0 && (
+  <ul class="article-tags" aria-label="Article topics">
+    {tags.map(tag => (
+      <li><a href={`/writing?tag=${encodeURIComponent(tag)}`} rel="tag">{tag}</a></li>
+    ))}
+  </ul>
+)}
+<style>
+  .article-tags { display: flex; flex-wrap: wrap; gap: 4px 16px; list-style: none; padding: 0; margin: 16px 0 0; }
+  .article-tags li { min-width: 0; max-width: 100%; }
+  .article-tags a { display: inline-block; padding: 4px 0; color: var(--muted); font: 500 12px/1.5 var(--sans); letter-spacing: 0; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 4px; overflow-wrap: anywhere; }
+  .article-tags a:hover, .article-tags a:focus-visible { color: var(--accent); text-decoration-color: currentColor; }
+  :global(.article-intro) .article-tags { margin-bottom: 24px; }
+</style>

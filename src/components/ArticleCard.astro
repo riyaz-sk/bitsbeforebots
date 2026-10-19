@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import ArticleTags from './ArticleTags.astro';
 interface Props { article: CollectionEntry<'writing'>; index?: number; }
 const { article, index = 1 } = Astro.props;
 ---
@@ -7,5 +8,6 @@ const { article, index = 1 } = Astro.props;
   <div class="article-top"><span class="eyebrow">{article.data.category}</span><span class="article-number">0{index}</span></div>
   <h3><a href={`/writing/${article.id}/`}>{article.data.title}</a></h3>
   <p>{article.data.description}</p>
+  <ArticleTags tags={article.data.tags} />
   <div class="article-bottom"><span>{article.data.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' })} · {article.data.readingTime}</span><a href={`/writing/${article.id}/`} aria-label={`Read ${article.data.title}`}>Read <span aria-hidden="true">↗</span></a></div>
 </article>

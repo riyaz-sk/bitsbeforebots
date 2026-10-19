@@ -2,6 +2,7 @@
 title: "Reliable RAG Starts Before the Language Model"
 description: "Reliable retrieval-augmented generation depends on corpus quality, hybrid retrieval, deduplication, evaluation, and clear information boundaries."
 category: "AI engineering"
+tags: ["RAG", "Hybrid Search", "Retrieval Quality", "Evaluation"]
 date: 2026-10-15
 readingTime: "4 min"
 ---

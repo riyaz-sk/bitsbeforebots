@@ -5,10 +5,15 @@ import EssayFeed from '../components/EssayFeed.astro';
 import { getCollection } from 'astro:content';
 const articles = (await getCollection('writing', ({data}) => !data.draft)).sort((a,b) => b.data.date.valueOf()-a.data.date.valueOf());
 const topics = ['All writing', 'Infrastructure', 'DevOps', 'AI engineering'];
+const tags = [...new Set(articles.flatMap(article => article.data.tags))].sort((a, b) => a.localeCompare(b));
 ---
 <BaseLayout title="Writing — Riyaz Shaik" pageClass="feed-page">
   <header class="feed-intro"><p class="eyebrow">THE FIELD NOTES</p><h1>Thinking in public.</h1><p>Infrastructure, engineering trade-offs, and practical AI. Find something worth thinking about.</p></header>
   <div class="feed-topics filters" aria-label="Filter writing by topic" hidden>{topics.map((topic,index) => <button type="button" data-filter={topic} aria-pressed={index === 0}>{topic}</button>)}</div>
+  {tags.length > 0 && <div class="tag-filter" hidden>
+    <label for="article-tag">Topic tag</label>
+    <select id="article-tag" name="tag"><option value="">All tags</option>{tags.map(tag => <option value={tag}>{tag}</option>)}</select>
+  </div>}
   <p class="search-summary" data-search-summary hidden></p>
   <p class="sr-only" aria-live="polite" data-results></p>
   <EssayFeed articles={articles} />
@@ -21,25 +26,32 @@ const topics = ['All writing', 'Infrastructure', 'DevOps', 'AI engineering'];
     const buttons = [...document.querySelectorAll<HTMLButtonElement>('[data-filter]')];
     const input = document.querySelector<HTMLInputElement>('#article-search');
     const form = document.querySelector<HTMLFormElement>('.site-search');
+    const tagFilter = document.querySelector<HTMLElement>('.tag-filter');
+    const tagSelect = document.querySelector<HTMLSelectElement>('#article-tag');
+    if (tagFilter) tagFilter.hidden = false;
+    const taggedCards = cards.map(card => ({ card, tags: JSON.parse(card.dataset.tags || '[]') as string[] }));
     const applyFilters = (syncInput = true) => {
       const params = new URL(location.href).searchParams;
       const requested = params.get('topic');
       const topic = buttons.some(button => button.dataset.filter === requested) ? requested! : 'All writing';
+      const requestedTag = params.get('tag') || '';
+      const tag = [...(tagSelect?.options || [])].some(option => option.value === requestedTag) ? requestedTag : '';
+      if (tagSelect) tagSelect.value = tag;
       const query = (params.get('q') || '').trim();
       if (syncInput && input && input.value !== query) input.value = query;
       buttons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.filter === topic)));
       const terms = query.toLowerCase().split(/\s+/).filter(Boolean);
       let count = 0;
-      cards.forEach(card => {
-        card.hidden = (topic !== 'All writing' && card.dataset.category !== topic) || !terms.every(term => card.dataset.search!.includes(term));
+      taggedCards.forEach(({ card, tags }) => {
+        card.hidden = (topic !== 'All writing' && card.dataset.category !== topic) || (tag !== '' && !tags.includes(tag)) || !terms.every(term => card.dataset.search!.includes(term));
         if (!card.hidden) count++;
       });
       const empty = document.querySelector<HTMLElement>('[data-empty]');
       if (empty) empty.hidden = count > 0;
       const summary = document.querySelector<HTMLElement>('[data-search-summary]');
-      if (summary) { summary.hidden = !query; summary.textContent = `${count} ${count === 1 ? 'essay' : 'essays'} for “${query}”`; }
+      if (summary) { summary.hidden = !query && !tag; summary.textContent = `${count} ${count === 1 ? 'essay' : 'essays'}${query ? ` for “${query}”` : ''}${tag ? ` tagged ${tag}` : ''}`; }
       const results = document.querySelector('[data-results]');
-      if (results) results.textContent = `${count} ${count === 1 ? 'essay' : 'essays'} shown${topic === 'All writing' ? '' : ` in ${topic}`}`;
+      if (results) results.textContent = `${count} ${count === 1 ? 'essay' : 'essays'} shown${topic === 'All writing' ? '' : ` in ${topic}`}${tag ? ` tagged ${tag}` : ''}`;
     };
     const setQuery = (push: boolean) => {
       const url = new URL(location.href);
@@ -50,6 +62,12 @@ const topics = ['All writing', 'Infrastructure', 'DevOps', 'AI engineering'];
     };
     applyFilters();
     window.addEventListener('popstate', () => applyFilters());
+    tagSelect?.addEventListener('change', () => {
+      const url = new URL(location.href);
+      if (tagSelect.value) url.searchParams.set('tag', tagSelect.value); else url.searchParams.delete('tag');
+      history.pushState(null, '', url);
+      applyFilters();
+    });
     input?.addEventListener('input', () => setQuery(false));
     form?.addEventListener('submit', event => { event.preventDefault(); setQuery(true); document.querySelector('.feed-intro')?.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'}); });
     buttons.forEach(button => button.addEventListener('click', () => {
@@ -59,4 +77,10 @@ const topics = ['All writing', 'Infrastructure', 'DevOps', 'AI engineering'];
       applyFilters();
     }));
   </script>
+  <style>
+    .tag-filter { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin: 22px 0 8px; }
+    .tag-filter label { font-size: 12px; color: var(--muted); }
+    .tag-filter select { width: 230px; max-width: 100%; padding: 9px 12px; border: 1px solid var(--line); border-radius: 4px; background: var(--paper); color: var(--ink); font: 13px/1.5 var(--sans); letter-spacing: 0; }
+    .tag-filter select:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+  </style>
 </BaseLayout>
