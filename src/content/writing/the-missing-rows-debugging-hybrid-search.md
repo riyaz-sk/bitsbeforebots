@@ -5,7 +5,7 @@ category: "AI engineering"
 tags: ["RAG", "Hybrid Search", "MCP", "Retrieval Quality"]
 date: 2026-10-19
 readingTime: "7 min"
-draft: true
+draft: false
 ---
 
 The answer looked useful. It named the right document, organized the results neatly, and explained which entries matched the question. It was also missing rows that were plainly present in the source.
